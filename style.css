@@ -1,0 +1,109 @@
+body {	
+	margin: 0;
+	padding: 0;	
+}
+#nicknameInput
+{
+	z-index: 1000;
+	background-color:#0CF;
+	height: 100%;
+	width: 100%;
+	visibility: visible;
+	text-align: left;
+	border-top-color: #0CF;
+	border-right-color: #0CF;
+	border-bottom-color: #0CF;
+	border-left-color: #0CF;
+	position: absolute;
+}
+
+#panel
+{
+    height: 100%;
+	width: 100%;
+}
+
+#viewcontainer
+{
+	position:relative;
+	float:left;
+    height: 100%;
+	width: 100%;  
+	background-colo:#0F9;
+}
+
+#mainOut
+{
+	position:relative;
+	float:left;
+	width:100%;
+	height:400px;
+	background-color: #cdcde6;
+	overflow: auto;
+}
+#inputMsg
+{
+	position:relative;
+	float:left;
+  	width: 100%;
+	height:50px;
+    background-color: #FCC;
+}
+#status
+{
+	position:relative;
+	width: 100%;
+	float:left;  
+    background: #F96;
+}
+#mainDiv
+{	
+	min-width: 780px;
+	background: #FFF;
+	margin: 0 auto; 
+	overflow: hidden;
+	width: 100%;
+}
+
+#container
+{			
+	background: #ABC;
+	width: 100%;
+	overflow: hidden;	
+}
+
+#tab
+{	
+	float: left;
+	margin: 0 0 5px 5px;
+	border: 1px solid #666;
+	padding: 1px;
+	background: #DFG;
+	max-width: 100px;
+	max-higth: 20px;	
+}
+
+#tab:hover
+{	
+	background: #CDF;	
+}
+
+#tabfocus
+{	
+	float: left;
+	margin: 0 0 5px 5px;
+	border: 1px solid #666;
+	padding: 1px;
+	background: #A5DF00;
+	max-width: 100px;
+	max-higth: 20px;	
+}
+
+#errorDiv
+{
+	 color: red;
+}
+#key
+{
+	display: none
+}
