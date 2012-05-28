@@ -4,9 +4,13 @@ class View
   DivElement _container;
   DivElement _mainOut;
   DivElement _statusBar;
+  DivElement _container2;
+  DivElement _participantsDiv;
+  
   InputElement _input;  
   ChatClient _client;
   String _title;
+  Participants _participants;
   /*
   0 - system
   */
@@ -17,17 +21,31 @@ class View
   }
   
   void ready()
-  {
+  {    
     _container = new Element.tag('div');
     _container.id = "viewcontainer";
     
+    _container2 = new Element.tag('div');
+    _container2.id = "container2";
+    
     _mainOut = new Element.tag('div');
     _mainOut.id = "mainOut";    
-    _container.nodes.add( _mainOut);
+    
+    _participantsDiv = new Element.tag('div');
+    _participantsDiv.id = "participants";
+    
+    _participants = new Participants( _participantsDiv);
+    _participants.ready();
+    
+    _container2.nodes.add( _mainOut);
+    _container2.nodes.add( _participantsDiv);
+    
+    _container.nodes.add( _container2);
     
     _statusBar = new Element.tag('div');
     _statusBar.id = "statusBar";
     _statusBar.innerHTML = "Status bar";
+    _statusBar.hidden = true;
     _container.nodes.add( _statusBar);
     
     _input = new Element.tag('input');
@@ -60,5 +78,20 @@ class View
   {
     _mainOut.innerHTML = _mainOut.innerHTML + "<br/>$message";    
     _mainOut.scrollByLines( 10);
+  }
+  
+  void setParticipants( List participants)
+  {
+    _participants.setParticipants( participants);
+  }
+  
+  void addParticipant( String participant)
+  {
+    _participants.addParticipant( participant);
+  }
+  
+  void removeParticipant( String participant)
+  {
+    _participants.removeParticipant( participant);
   }
 }

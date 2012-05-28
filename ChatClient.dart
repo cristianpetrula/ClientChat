@@ -5,6 +5,7 @@
 
 #source('view/ChatView.dart');
 #source('view/View.dart');
+#source("view/Participants.dart");
 
 #resource('style.css');
 
@@ -61,9 +62,15 @@ class ChatClient {
     var cmd = parts[0];
     if ( cmd.toLowerCase() == "join")
     {
-      var channel = parts[1];
-      joinChannel(channel, 1);
-      focusOnTab( channel);
+      if ( parts.length == 2)
+      {
+        var channel = parts[1];
+        if ( channel != null && channel.length >= 1)
+        {
+          joinChannel(channel, 1);
+          focusOnTab( channel);
+        }
+      }
     }
   }
   
@@ -116,7 +123,8 @@ class ChatClient {
       }  
     });
     
-    ws = new WebSocket("ws://127.0.0.1:1337");   
+    ws = new WebSocket("ws://192.168.1.123:1337");   
+    //ws = new WebSocket("ws://127.0.0.1:1337");   
     ws.on.open.add((a) {
       print("open $a");
       isConnected = true;
@@ -133,8 +141,9 @@ class ChatClient {
        
     ws.on.message.add((m) {
       var jdata = JSON.parse(m.data);
+      var cmd = jdata["cmd"].toLowerCase();
       print( "Data : $jdata \n");     
-      if (jdata["cmd"] == "newmessage")
+      if (cmd == "newmessage")
       {
         var nickname = jdata["nickname"];
         var message = jdata["message"];
@@ -150,7 +159,7 @@ class ChatClient {
           displayMessage( channel, "($date) $message");
         }
       }
-      else if ( jdata["cmd"] == "history")
+      else if ( cmd == "history")
       {
         var channel = jdata["channel"];
         var data = jdata["data"];        
@@ -173,17 +182,42 @@ class ChatClient {
           displayMessage( channel, line);
         }
       }
-      else if ( jdata["cmd"] == "invalidnickname")
+      else if ( cmd == "invalidnickname")
       {
           var message = jdata["message"];
           unhideNickPanel(message);
       }
-      else if ( jdata["cmd"] == "nicknameaccepted")
+      else if ( cmd == "nicknameaccepted")
       {
         hideNickPanel();
         joinDefaultChannel();
       }
-      
+      else if ( cmd == "userjoin")
+      {        
+        var message = jdata["message"];
+        var nickname = jdata["nickname"];
+        var time = jdata["time"];
+        var channel = jdata["channel"];
+        var date = buildDate(time);
+        displayMessage( channel, "($date) $message");    
+        addParticipant( channel, nickname);
+      }
+      else if (cmd == "userleft")
+      {
+        var nickname = jdata["nickname"];
+        var message = jdata["message"];
+        var time = jdata["time"];
+        var channel = jdata["channel"];
+        var date = buildDate(time);
+        displayMessage( channel, "($date) $message");  
+        removeParticipant( channel, nickname);       
+      }
+      else if ( cmd == "participants")
+      {
+        var channel = jdata["channel"];
+        var participants = jdata["participants"];
+        _chatView.setParticipants( channel, participants);
+      }      
     });
   }
 
@@ -209,6 +243,16 @@ class ChatClient {
   void displayMessage(String channel, String message)
   {     
     _chatView.displayMessage( channel, message);   
+  }
+  
+  void addParticipant( String channel, String participant)
+  {
+    _chatView.addParticipant( channel, participant);
+  }
+  
+  void removeParticipant( String channel, String participant)
+  {
+    _chatView.removeParticipant( channel, participant);
   }
 }
 

@@ -178,4 +178,18 @@ class ChatView
     }
   }  
   
+  void setParticipants( String channel, List participants)
+  {
+    _views[ channel.toLowerCase()].setParticipants( participants);
+  }
+  
+  void addParticipant( String channel, String participant)
+  {
+    _views[ channel.toLowerCase()].addParticipant( participant);
+  }
+  
+  void removeParticipant( String channel, String participant)
+  {
+    _views[ channel.toLowerCase()].removeParticipant( participant);
+  }
 }
