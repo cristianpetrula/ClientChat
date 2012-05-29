@@ -908,16 +908,16 @@ Isolate.$defineClass("ChatClient", "Object", ["_chatView?", "_root", "_nickname"
   this._chatView.displayMessage$2(channel, message);
  },
  unhideNickPanel$1: function(message) {
-  $.document().query$1('#nicknameInput').get$style().set$zIndex('1');
-  $.document().query$1('#nicknameInput').get$style().set$visibility('visible');
+  $.document().query$1('#mainInput').get$style().set$zIndex('1');
+  $.document().query$1('#mainInput').get$style().set$visibility('visible');
   this._root.set$hidden(true);
   if (!$.eqNullB(message)) {
     $.document().query$1('#errorDiv').set$innerHTML(message);
   }
  },
  hideNickPanel$0: function() {
-  $.document().query$1('#nicknameInput').get$style().set$zIndex('-1');
-  $.document().query$1('#nicknameInput').get$style().set$visibility('hidden');
+  $.document().query$1('#mainInput').get$style().set$zIndex('-1');
+  $.document().query$1('#mainInput').get$style().set$visibility('hidden');
   this._root.set$hidden(false);
   $.document().query$1('#errorDiv').set$innerHTML('');
  },
@@ -1104,7 +1104,16 @@ Isolate.$defineClass("ChatView", "Object", ["_client?", "_views", "_panels", "_t
  }
 });
 
-Isolate.$defineClass("View", "Object", ["_lib3_type", "_participants", "_title?", "_client?", "_input?", "_participantsDiv", "_container2", "_statusBar", "_mainOut", "_container", "_root"], {
+Isolate.$defineClass("View", "Object", ["_emoticons", "_lib3_type", "_participants", "_title?", "_client?", "_input?", "_participantsDiv", "_container2", "_statusBar", "_mainOut", "_container", "_root"], {
+ addEmoticons$1: function(message) {
+  var it = $.iterator(this._emoticons.getKeys$0());
+  for (var result = message; it.hasNext$0() === true; result = result0) {
+    var result0 = result;
+    var key = it.next$0();
+    result0 = $.replaceAll(result, key, '<img src="' + $.stringToString($.index(this._emoticons, key)) + '"/>');
+  }
+  return result;
+ },
  removeParticipant$1: function(participant) {
   this._participants.removeParticipant$1(participant);
  },
@@ -1115,7 +1124,8 @@ Isolate.$defineClass("View", "Object", ["_lib3_type", "_participants", "_title?"
   this._participants.setParticipants$1(participants);
  },
  displayMessage$1: function(message) {
-  var t0 = $.add(this._mainOut.get$innerHTML(), '<br/>' + $.stringToString(message));
+  var messageWithEmoticons = this.addEmoticons$1(message);
+  var t0 = $.add(this._mainOut.get$innerHTML(), '<br/>' + $.stringToString(messageWithEmoticons));
   this._mainOut.set$innerHTML(t0);
   this._mainOut.scrollByLines$1(10);
  },
@@ -1144,6 +1154,16 @@ Isolate.$defineClass("View", "Object", ["_lib3_type", "_participants", "_title?"
   $.add$1(this._input.get$on().get$keyPress(), new $.Closure11(this));
   $.add$1(this._container.get$nodes(), this._input);
   $.add$1(this._root.get$nodes(), this._container);
+ },
+ View$4: function(_root, _type, _client, _title) {
+  this._emoticons = $.HashMapImplementation$0();
+  $.indexSet(this._emoticons, ';;)', 'img/5.gif');
+  $.indexSet(this._emoticons, '=))', 'img/24.gif');
+  $.indexSet(this._emoticons, ':)', 'img/1.gif');
+  $.indexSet(this._emoticons, ':(', 'img/2.gif');
+  $.indexSet(this._emoticons, ';)', 'img/3.gif');
+  $.indexSet(this._emoticons, ':d', 'img/4.gif');
+  $.indexSet(this._emoticons, ':D', 'img/4.gif');
  }
 });
 
@@ -3547,7 +3567,9 @@ $._DedicatedWorkerContextEventsImpl$1 = function(_ptr) {
 };
 
 $.View$4 = function(_root, _type, _client, _title) {
-  return new $.View(_type, (void 0), _title, _client, (void 0), (void 0), (void 0), (void 0), (void 0), (void 0), _root);
+  var t0 = new $.View((void 0), _type, (void 0), _title, _client, (void 0), (void 0), (void 0), (void 0), (void 0), (void 0), _root);
+  t0.View$4(_root, _type, _client, _title);
+  return t0;
 };
 
 $._FileReaderEventsImpl$1 = function(_ptr) {

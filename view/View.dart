@@ -16,8 +16,19 @@ class View
   */
   int _type;
   
+  Map<String, String> _emoticons;
+  
   View( this._root, this._type, this._client, this._title)
   {    
+    _emoticons = new HashMap<String, String>();
+    _emoticons[ ";;)"] = "img/5.gif";
+    _emoticons[ "=))"] = "img/24.gif";
+    _emoticons[ ":)"] = "img/1.gif";
+    _emoticons[ ":("] = "img/2.gif";
+    _emoticons[ ";)"] = "img/3.gif";
+    _emoticons[ ":d"] = "img/4.gif";
+    _emoticons[ ":D"] = "img/4.gif";   
+    
   }
   
   void ready()
@@ -76,7 +87,8 @@ class View
   
   void displayMessage(message)
   {
-    _mainOut.innerHTML = _mainOut.innerHTML + "<br/>$message";    
+    String messageWithEmoticons = addEmoticons( message);
+    _mainOut.innerHTML = _mainOut.innerHTML + "<br/>$messageWithEmoticons";    
     _mainOut.scrollByLines( 10);
   }
   
@@ -93,5 +105,19 @@ class View
   void removeParticipant( String participant)
   {
     _participants.removeParticipant( participant);
+  }
+  
+  String addEmoticons( String message)
+  {
+    String result = message;
+    Iterator<String> it = _emoticons.getKeys().iterator();
+    while( it.hasNext())
+    {
+      String key = it.next();
+      String url = _emoticons[ key];
+      String a = "<img src=\"$url\"/>";
+      result = result.replaceAll(key, a);
+    }
+    return result;
   }
 }

@@ -2144,6 +2144,15 @@ _ElementAttributeMap.prototype.forEach = function(f) {
     f(item.get$name(), item.get$value());
   }
 }
+_ElementAttributeMap.prototype.getKeys = function() {
+  var attributes = this._html_element.get$$$dom_attributes();
+  var keys = new Array(attributes.get$length());
+  for (var i = (0), len = attributes.get$length();
+   i < len; i++) {
+    keys.$setindex(i, attributes.$index(i).get$name());
+  }
+  return keys;
+}
 _ElementAttributeMap.prototype.get$length = function() {
   return this._html_element.get$$$dom_attributes().length;
 }
@@ -3043,6 +3052,14 @@ $dynamic("forEach").Storage = function(f) {
     f(key, this.$index(key));
   }
 }
+$dynamic("getKeys").Storage = function() {
+  var keys = [];
+  this.forEach((function (k, v) {
+    return keys.add$1(k);
+  })
+  );
+  return keys;
+}
 $dynamic("get$length").Storage = function() {
   return this.get$$$dom_length();
 }
@@ -3682,14 +3699,14 @@ ChatClient.prototype.run = function() {
   ), false);
 }
 ChatClient.prototype.hideNickPanel = function() {
-  get$$document().query("#nicknameInput").style.set$zIndex("-1");
-  get$$document().query("#nicknameInput").style.set$visibility("hidden");
+  get$$document().query("#mainInput").style.set$zIndex("-1");
+  get$$document().query("#mainInput").style.set$visibility("hidden");
   this._root.set$hidden(false);
   get$$document().query("#errorDiv").set$innerHTML("");
 }
 ChatClient.prototype.unhideNickPanel = function(message) {
-  get$$document().query("#nicknameInput").style.set$zIndex("1");
-  get$$document().query("#nicknameInput").style.set$visibility("visible");
+  get$$document().query("#mainInput").style.set$zIndex("1");
+  get$$document().query("#mainInput").style.set$visibility("visible");
   this._root.set$hidden(true);
   if ($ne$(message)) {
     get$$document().query("#errorDiv").set$innerHTML(message);
@@ -3828,6 +3845,14 @@ function View(_root, _type, _client, _title) {
   this._type = _type;
   this._client = _client;
   this._title = _title;
+  this._emoticons = new HashMapImplementation_dart_core_String$dart_core_String();
+  this._emoticons.$setindex(";;)", "img/5.gif");
+  this._emoticons.$setindex("=))", "img/24.gif");
+  this._emoticons.$setindex(":)", "img/1.gif");
+  this._emoticons.$setindex(":(", "img/2.gif");
+  this._emoticons.$setindex(";)", "img/3.gif");
+  this._emoticons.$setindex(":d", "img/4.gif");
+  this._emoticons.$setindex(":D", "img/4.gif");
 }
 View.prototype.ready = function() {
   var $this = this;
@@ -3869,7 +3894,8 @@ View.prototype.ready = function() {
   this._root.get$nodes().add(this._container);
 }
 View.prototype.displayMessage = function(message) {
-  this._mainOut.set$innerHTML($add$(this._mainOut.get$innerHTML(), ("<br/>" + message)));
+  var messageWithEmoticons = this.addEmoticons(message);
+  this._mainOut.set$innerHTML($add$(this._mainOut.get$innerHTML(), ("<br/>" + messageWithEmoticons)));
   this._mainOut.scrollByLines((10));
 }
 View.prototype.setParticipants = function(participants) {
@@ -3880,6 +3906,17 @@ View.prototype.addParticipant = function(participant) {
 }
 View.prototype.removeParticipant = function(participant) {
   this._participants.removeParticipant(participant);
+}
+View.prototype.addEmoticons = function(message) {
+  var result = message;
+  var it = this._emoticons.getKeys().iterator();
+  while (it.hasNext()) {
+    var key = it.next();
+    var url = this._emoticons.$index(key);
+    var a = ("<img src=\"" + url + "\"/>");
+    result = result.replaceAll(key, a);
+  }
+  return result;
 }
 View.prototype.addParticipant$1 = View.prototype.addParticipant;
 View.prototype.removeParticipant$1 = View.prototype.removeParticipant;

@@ -2,13 +2,19 @@ body {
 	margin: 0;
 	padding: 0;	
 }
-#nicknameInput
+
+#mainInput
 {
 	z-index: 1000;
-	background-color:#0CF;
 	height: 100%;
 	width: 100%;
 	visibility: visible;
+	background-color:#FFFFFF;	
+	position: absolute;
+}
+
+#nicknameInput
+{	
 	text-align: left;
 	border-top-color: #0CF;
 	border-right-color: #0CF;
@@ -29,7 +35,8 @@ body {
 	float:left;
     height: 100%;
 	width: 100%;  
-	background-colo:#0F9;
+	background-colo:#FFFFFF;
+	border: 1px solid #666;
 }
 
 #mainOut
@@ -37,8 +44,8 @@ body {
 	position:relative;
 	float:left;
 	width:84%;
-	height:400px;
-	background-color: #cdcde6;
+	height:500px;
+	background-color: #FFFFFF;
 	overflow: auto;
 }
 
@@ -47,11 +54,12 @@ body {
 	position:relative;
 	float:left;
 	width:15%;
-	height:400px;
-	background-color: #cdcde6;
+	height:500px;
+	background-color: #FFFFFF;
 	overflow-y: auto;
 	overflow-x: hidden;	
 	margin: 0 auto;
+	border: 1px solid #666;
 	border-left-style:solid;	
 }
 
@@ -62,13 +70,14 @@ body {
 	width: 100%;
 	height: 25px;
 	vertical-align: middle;
-	background-color: #99CCFF;	
+	background-color: #FFFFFF;	
 	margin: 2px;
 }
 
 #participant:hover
 {	
-	background-color: #99FFFF;
+	background-color: #FFE5FF;	
+	font-size:110%;
 }
 
 #container2
@@ -83,7 +92,7 @@ body {
 	float:left;
   	width: 100%;
 	height:50px;
-    background-color: #FCC;
+    background-color: #FFFFFF;
 }
 #status
 {
@@ -95,15 +104,16 @@ body {
 #mainDiv
 {	
 	min-width: 780px;
-	background: #FFF;
+	background: #FFFFFF;
 	margin: 0 auto; 
 	overflow: hidden;
 	width: 100%;
+	border: 1px solid #666;	
 }
 
 #container
 {			
-	background: #ABC;
+	background: #FFFFFF;
 	width: 100%;
 	overflow: hidden;	
 }
@@ -114,14 +124,14 @@ body {
 	margin: 0 0 5px 5px;
 	border: 1px solid #666;
 	padding: 1px;
-	background: #DFG;
+	background: #FFFFFF;
 	max-width: 100px;
 	max-higth: 20px;	
 }
 
 #tab:hover
 {	
-	background: #CDF;	
+	background: #CFCFFF;	
 }
 
 #tabfocus
@@ -130,7 +140,7 @@ body {
 	margin: 0 0 5px 5px;
 	border: 1px solid #666;
 	padding: 1px;
-	background: #A5DF00;
+	background: #C6B5FF;
 	max-width: 100px;
 	max-higth: 20px;	
 }
@@ -142,4 +152,9 @@ body {
 #key
 {
 	display: none
+}
+
+#containerTabs
+{
+	border: 1px solid #666;
 }

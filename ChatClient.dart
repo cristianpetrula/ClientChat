@@ -222,17 +222,17 @@ class ChatClient {
   }
 
   void hideNickPanel()
-  {
-    document.query('#nicknameInput').style.zIndex = '-1';
-    document.query('#nicknameInput').style.visibility = 'hidden';
+  {    
+    document.query('#mainInput').style.zIndex = '-1';
+    document.query('#mainInput').style.visibility = 'hidden';
     _root.hidden = false;
     document.query('#errorDiv').innerHTML = "";
   }
   
   void unhideNickPanel( message)
   {
-    document.query('#nicknameInput').style.zIndex = '1';
-    document.query('#nicknameInput').style.visibility = 'visible';
+    document.query('#mainInput').style.zIndex = '1';
+    document.query('#mainInput').style.visibility = 'visible';
     _root.hidden = true;
     if ( message != null)
     {
